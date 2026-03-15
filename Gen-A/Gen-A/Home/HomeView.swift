@@ -12,35 +12,25 @@
 /// `Github`: ``@csprasad``
 ///
 
-
 import SwiftUI
-
+ 
 struct HomeView: View {
-
-    private let cols = [GridItem(.adaptive(minimum: 120))]
-
+ 
+    private let cols = [GridItem(.adaptive(minimum: 140))]
+    private let effects = EffectRegistry.allEffects
+ 
     var body: some View {
-
         NavigationStack {
-
             ScrollView {
-
                 LazyVGrid(columns: cols, spacing: 20) {
-
-                    ForEach(Effect.allCases) { effect in
-
-                        NavigationLink {
-
-                            ParticleSceneView(effect: effect)
-
-                        } label: {
-
+                    ForEach(effects, id: \.id) { effect in
+                        NavigationLink(destination: effect.destinationView) {
                             VStack(spacing: 10) {
-
                                 Image(systemName: effect.icon)
                                     .font(.system(size: 36))
-
                                 Text(effect.title)
+                                    .font(.subheadline)
+                                    .fontWeight(.medium)
                             }
                             .tint(.primary)
                             .frame(height: 120)
@@ -52,11 +42,10 @@ struct HomeView: View {
                 }
                 .padding()
             }
-            .navigationTitle("Particle Effects")
+            .navigationTitle("Particle FX")
         }
     }
 }
-
-#Preview {
-    HomeView()
-}
+ 
+#Preview { HomeView() }
+ 
