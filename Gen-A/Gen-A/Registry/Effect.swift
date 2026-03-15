@@ -14,6 +14,7 @@ import SwiftUI
 enum Effect: CaseIterable, Identifiable {
     case rain
     case leaves
+    case galaxy
 
     var id: Self { self }
 
@@ -21,6 +22,7 @@ enum Effect: CaseIterable, Identifiable {
         switch self {
         case .rain: "Rain"
         case .leaves: "Falling Leaves"
+        case .galaxy: "Galaxy Spiral"
         }
     }
 
@@ -28,6 +30,7 @@ enum Effect: CaseIterable, Identifiable {
         switch self {
         case .rain: "cloud.rain"
         case .leaves: "leaf"
+        case .galaxy: "tropicalstorm"
         }
     }
 
@@ -35,6 +38,7 @@ enum Effect: CaseIterable, Identifiable {
         switch self {
         case .rain: .black
         case .leaves: Color(red: 0.1, green: 0.08, blue: 0.05)
+        case .galaxy: .black
         }
     }
 
@@ -81,6 +85,37 @@ enum Effect: CaseIterable, Identifiable {
                 )
             }
             return ParticleEngine(particles: particles, behaviour: LeafBehaviour())
+            
+        case .galaxy:
+            let maxR = min(size.width, size.height) * 0.55
+            let galaxyColors: [Color] = [
+                .white,
+                Color(red: 0.6, green: 0.8, blue: 1.0),   // blue white
+                Color(red: 1.0, green: 0.9, blue: 0.7),   // warm yellow
+                Color(red: 0.9, green: 0.6, blue: 1.0),   // purple
+                Color(red: 0.6, green: 1.0, blue: 0.9),   // teal
+            ]
+            let armCount = 3
+            let particles = (0..<500).map { i in
+                let arm = i % armCount
+                let armOffset = Double(arm) * (Double.pi * 2 / Double(armCount))
+                let radius = Double.random(in: 10...maxR)
+                let angle = (radius / maxR) * Double.pi * 3 + Double.random(in: -0.3...0.3)
+                return ParticleModel(
+                    position: .zero,
+                    velocity: .zero,
+                    rotation: 0,
+                    rotationSpeed: 0,
+                    scale: Double.random(in: 0.3...1.2),
+                    color: galaxyColors.randomElement()!,
+                    opacity: Double.random(in: 0.4...1.0), angle: angle,       // actual angle field
+                    radius: radius,     // actual radius field
+                    speed: 0.0008 + (1.0 - radius / maxR) * 0.002,
+                    armOffset: armOffset
+                )
+            }
+            return ParticleEngine(particles: particles, behaviour: GalaxyBehaviour())
+        
         }
     }
 
@@ -95,6 +130,8 @@ enum Effect: CaseIterable, Identifiable {
             Image("kids_playin")
                 .resizable()
                 .scaledToFill()
+            
+        case .galaxy: EmptyView()
         }
     }
 }

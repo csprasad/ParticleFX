@@ -14,8 +14,8 @@ No SpriteKit. No Metal. Just SwiftUI.
   <tr>
     <td width="25%"><img src="gifs/rain.gif"/></td>
     <td width="25%"><img src="gifs/fallingleaves.gif"/></td>
-    <!-- <td width="25%"><img src="gifs/ain.gif" width="100%"/></td>
-    <td width="25%"><img src="gifs/falingleaves.gif" width="100%"/></td> -->
+    <td width="25%"><img src="gifs/galaxy.gif"/></td>
+    <!-- <td width="25%"><img src="gifs/falingleaves.gif" width="100%"/></td> -->
   </tr>
 </table>
 
